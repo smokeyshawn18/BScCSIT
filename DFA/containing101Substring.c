@@ -56,7 +56,9 @@ void simulateDFA(const char input[], int length) {
 }
 
 int main() {
-    char inputString[] = "1101010"; // Example input
+    char inputString[100];
+    printf("Enter a binary string: ");
+    scanf("%s", inputString);
     int length = strlen(inputString);
 
     printf("Shudarsan Poudel\n");

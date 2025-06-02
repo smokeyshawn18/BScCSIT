@@ -6,7 +6,7 @@
 typedef enum { A, B, C, D } State;
 
 State currentState = A;
-State finalState = C;
+const State finalState = C;
 bool isValid = true;
 
 // Validate input: only '0' and '1' allowed
@@ -39,12 +39,13 @@ void transition(char inputChar) {
 
 // Run DFA simulation
 void simulateDFA(const char input[], int length) {
+    currentState = A;  // Reset state
     for (int i = 0; i < length; i++) {
         printf("Step %d → State: %c, Input: %c\n", i + 1, 'A' + currentState, input[i]);
         transition(input[i]);
     }
 
-    if (currentState == finalState || (length == 2 && currentState == C)) {
+    if (length >= 2 && currentState == C) {
         printf("\n✅ String Accepted: Starts with '01'\n");
     } else {
         printf("\n❌ String Rejected: Does not start with '01'\n");
@@ -52,11 +53,16 @@ void simulateDFA(const char input[], int length) {
 }
 
 int main() {
-    char inputString[] = "01101"; // Change to test other strings
+    char inputString[100];
+    printf("Enter a binary string: ");
+    fgets(inputString, sizeof(inputString), stdin);
+
+    // Remove newline character if present
+    inputString[strcspn(inputString, "\n")] = '\0';
+
     int length = strlen(inputString);
 
-       printf("Shudarsan Poudel\n");
-
+    printf("Shudarsan Poudel\n");
     printf("Input String: %s\n", inputString);
 
     validateInput(inputString, length);

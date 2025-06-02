@@ -6,7 +6,7 @@
 typedef enum { A, B, C } State;
 
 State currentState = A;
-State finalState = C;
+const State finalState = C;
 bool isValid = true;
 
 // Validate input string contains only 0 and 1
@@ -19,7 +19,7 @@ void validateInput(const char input[], int length) {
     }
 }
 
-// Define state transitions
+// Define DFA transitions
 void transition(char inputChar) {
     switch (currentState) {
         case A:
@@ -34,8 +34,9 @@ void transition(char inputChar) {
     }
 }
 
-// Run DFA simulation on input string
+// Run DFA simulation
 void simulateDFA(const char input[], int length) {
+    currentState = A; // Reset to start state
     for (int i = 0; i < length; i++) {
         printf("Step %d → State: %c, Input: %c\n", i + 1, 'A' + currentState, input[i]);
         transition(input[i]);
@@ -49,11 +50,14 @@ void simulateDFA(const char input[], int length) {
 }
 
 int main() {
-    char inputString[] = "10101";
-    int length = strlen(inputString);
+    char inputString[100];
+
+    printf("Enter a binary string: ");
+    scanf("%s", inputString);  // Read input first
+
+    int length = strlen(inputString);  // Then calculate length
 
     printf("Shudarsan Poudel\n");
-
     printf("Input String: %s\n", inputString);
 
     validateInput(inputString, length);

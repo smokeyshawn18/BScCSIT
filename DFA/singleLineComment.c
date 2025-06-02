@@ -52,8 +52,10 @@ void simulate(const char inputString[]) {
 }
 
 int main() {
-    char inputString[] = "// This is a comment"; // Example input
+    char inputString[100];
 
+    printf("Enter a C single-line comment (e.g., // This is a comment): ");
+    fgets(inputString, sizeof(inputString), stdin);
     printf("Shudarsan Poudel\n");
     printf("Input String:\n%s\n", inputString);
     
