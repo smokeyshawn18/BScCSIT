@@ -30,14 +30,23 @@ int main() {
     printf("Enter Time Quantum: ");
     scanf("%d", &timeQuantum);
 
-    int queue[n]; // Queue to store process indices
+    int queue[n * 10]; // Enough size for re-enqueuing
     int front = 0, rear = 0;
     int visited[n];
     for (int i = 0; i < n; i++) visited[i] = 0;
 
-    // Enqueue processes that arrive at time 0
+    // Find the earliest arrival time
+    int earliestArrival = p[0].arrivalTime;
+    for (int i = 1; i < n; i++) {
+        if (p[i].arrivalTime < earliestArrival) {
+            earliestArrival = p[i].arrivalTime;
+        }
+    }
+
+    // Set current time and enqueue processes with earliest arrival
+    currentTime = earliestArrival;
     for (int i = 0; i < n; i++) {
-        if (p[i].arrivalTime == 0) {
+        if (p[i].arrivalTime == currentTime) {
             queue[rear++] = i;
             visited[i] = 1;
         }
