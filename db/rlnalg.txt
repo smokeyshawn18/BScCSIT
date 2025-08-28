@@ -1,0 +1,1 @@
+πCustomerName​(σAddress=′Lalitpur′​(Customer))↑CustomerName
