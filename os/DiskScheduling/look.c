@@ -1,54 +1,106 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-typedef struct{
-    int id, at, bt, ct, tat, wt, rt, done;
-} Process;
+const int size = 8;
 
-void printTable(Process p[], int n){
-    int totalTAT=0,totalWT=0;
-    printf("\n%-8s%-8s%-8s%-8s%-8s%-8s%-8s\n","Process","AT","BT","CT","TAT","WT","RT");
-    for(int i=0;i<n;i++){
-        totalTAT += p[i].tat;
-        totalWT += p[i].wt;
-        printf("P%-7d%-8d%-8d%-8d%-8d%-8d%-8d\n",
-               p[i].id,p[i].at,p[i].bt,p[i].ct,p[i].tat,p[i].wt,p[i].rt);
-    }
-    printf("\nAverage TAT = %.2f\n",(float)totalTAT/n);
-    printf("Average WT  = %.2f\n",(float)totalWT/n);
+// Compare function for qsort
+int compare(const void *a, const void *b)
+{
+    return (*(int *)a - *(int *)b);
 }
 
-int main(){
-    int n, dir;
-    printf("Enter number of processes: "); scanf("%d",&n);
-    Process p[n];
-    for(int i=0;i<n;i++){
-        p[i].id=i+1; p[i].done=0;
-        printf("Enter AT and BT for P%d: ",i+1);
-        scanf("%d %d",&p[i].at,&p[i].bt);
+void LOOK(int arr[], int head, char *direction)
+{
+    int seek_count = 0;
+    int distance, cur_track;
+    int left[size], right[size];
+    int left_size = 0, right_size = 0;
+
+    // Appending values which are currently at left and right direction from the head.
+    for (int i = 0; i < size; i++)
+    {
+        if (arr[i] < head)
+            left[left_size++] = arr[i];
+        if (arr[i] > head)
+            right[right_size++] = arr[i];
     }
 
-    printf("Enter initial direction (1=up,0=down): "); scanf("%d",&dir);
+    // Sorting left and right arrays for servicing tracks in the correct sequence.
+    qsort(left, left_size, sizeof(int), compare);
+    qsort(right, right_size, sizeof(int), compare);
 
-    int time=0, completed=0;
-    while(completed<n){
-        int idx=-1;
-        int candidateBT=dir?0:-1;
-        for(int i=0;i<n;i++){
-            if(!p[i].done && p[i].at <= time){
-                if(dir && p[i].bt >= candidateBT){ candidateBT=p[i].bt; idx=i; }
-                if(!dir && p[i].bt <= candidateBT){ candidateBT=p[i].bt; idx=i; }
+    // Run the while loop two times, one by one scanning right and left side of the head.
+    int run = 2;
+    while (run--)
+    {
+        if (strcmp(direction, "left") == 0)
+        {
+            for (int i = left_size - 1; i >= 0; i--)
+            {
+                cur_track = left[i];
+
+                // Appending current track to seek sequence
+                printf("%d ", cur_track);
+
+                // Calculate absolute distance
+                distance = abs(cur_track - head);
+
+                // Increase the total count
+                seek_count += distance;
+
+                // Accessed track is now the new head
+                head = cur_track;
             }
+            // Reversing the direction
+            strcpy(direction, "right");
         }
-        if(idx==-1){ time++; continue; }
-        p[idx].ct = time + p[idx].bt;
-        p[idx].tat = p[idx].ct - p[idx].at;
-        p[idx].wt = p[idx].tat - p[idx].bt;
-        p[idx].rt = p[idx].wt;
-        time = p[idx].ct;
-        p[idx].done=1; completed++;
+        else if (strcmp(direction, "right") == 0)
+        {
+            for (int i = 0; i < right_size; i++)
+            {
+                cur_track = right[i];
+
+                // Appending current track to seek sequence
+                printf("%d ", cur_track);
+
+                // Calculate absolute distance
+                distance = abs(cur_track - head);
+
+                // Increase the total count
+                seek_count += distance;
+
+                // Accessed track is now the new head
+                head = cur_track;
+            }
+            // Reversing the direction
+            strcpy(direction, "left");
+        }
     }
 
-    printTable(p,n);
+    printf("\nTotal number of seek operations = %d\n", seek_count);
+}
+
+// Driver code
+int main()
+{
+    int n, head;
+    printf("Enter the size of queue request: ");
+    scanf("%d", &n);
+
+    int arr[n];
+    printf("Enter the queue request: ");
+    for (int i = 0; i < n; i++)
+        scanf("%d", &arr[i]);
+
+    printf("Enter the initial head position: ");
+    scanf("%d", &head);
+
+    char direction[10];
+    printf("Enter the direction of head movement (left/right): ");
+    scanf("%s", direction);
+
+    LOOK(arr, head, direction);
+
     return 0;
 }

@@ -1,52 +1,93 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-typedef struct{
-    int id, at, bt, ct, tat, wt, rt, done;
-} Process;
+int size = 8;
+int disk_size = 200;
 
-void printTable(Process p[], int n){
-    int totalTAT=0,totalWT=0;
-    printf("\n%-8s%-8s%-8s%-8s%-8s%-8s%-8s\n","Process","AT","BT","CT","TAT","WT","RT");
-    for(int i=0;i<n;i++){
-        totalTAT += p[i].tat;
-        totalWT += p[i].wt;
-        printf("P%-7d%-8d%-8d%-8d%-8d%-8d%-8d\n",
-               p[i].id,p[i].at,p[i].bt,p[i].ct,p[i].tat,p[i].wt,p[i].rt);
+int cmpfunc(const void *a, const void *b);
+
+void SCAN(int arr[], int head, char *direction)
+{
+    int seek_count = 0;
+    int distance, cur_track;
+    int left[size], right[size];
+    int left_count = 0, right_count = 0;
+
+    if (strcmp(direction, "left") == 0)
+        left[left_count++] = 0;
+    else if (strcmp(direction, "right") == 0)
+        right[right_count++] = disk_size - 1;
+
+    for (int i = 0; i < size; i++)
+    {
+        if (arr[i] < head)
+            left[left_count++] = arr[i];
+        if (arr[i] > head)
+            right[right_count++] = arr[i];
     }
-    printf("\nAverage TAT = %.2f\n",(float)totalTAT/n);
-    printf("Average WT  = %.2f\n",(float)totalWT/n);
+
+    qsort(left, left_count, sizeof(int), cmpfunc);
+    qsort(right, right_count, sizeof(int), cmpfunc);
+
+    int seek_sequence[size];
+    int sequence_count = 0;
+
+    int run = 2;
+    while (run--)
+    {
+        if (strcmp(direction, "left") == 0)
+        {
+            for (int i = left_count - 1; i >= 0; i--)
+            {
+                cur_track = left[i];
+                seek_sequence[sequence_count++] = cur_track;
+                distance = abs(cur_track - head);
+                seek_count += distance;
+                head = cur_track;
+            }
+            strcpy(direction, "right");
+        }
+        else if (strcmp(direction, "right") == 0)
+        {
+            for (int i = 0; i < right_count; i++)
+            {
+                cur_track = right[i];
+                seek_sequence[sequence_count++] = cur_track;
+                distance = abs(cur_track - head);
+                seek_count += distance;
+                head = cur_track;
+            }
+            strcpy(direction, "left");
+        }
+    }
+    printf("Total number of seek operations = %d\n", seek_count);
 }
 
-int main(){
-    int n;
-    printf("Enter number of processes: "); scanf("%d",&n);
-    Process p[n];
-    for(int i=0;i<n;i++){
-        p[i].id=i+1; p[i].done=0;
-        printf("Enter AT and BT for P%d: ",i+1);
-        scanf("%d %d",&p[i].at,&p[i].bt);
-    }
+int cmpfunc(const void *a, const void *b)
+{
+    return (*(int *)a - *(int *)b);
+}
 
-    int time=0, completed=0;
-    int dir = 1; // 1=up, 0=down
-    while(completed<n){
-        int idx=-1, candidateBT=dir?0:-1;
-        for(int i=0;i<n;i++){
-            if(!p[i].done && p[i].at <= time){
-                if(dir && p[i].bt >= candidateBT){ candidateBT=p[i].bt; idx=i;}
-                if(!dir && p[i].bt <= candidateBT){ candidateBT=p[i].bt; idx=i;}
-            }
-        }
-        if(idx==-1){ time++; continue; }
-        p[idx].ct = time + p[idx].bt;
-        p[idx].tat = p[idx].ct - p[idx].at;
-        p[idx].wt = p[idx].tat - p[idx].bt;
-        p[idx].rt = p[idx].wt;
-        time = p[idx].ct;
-        p[idx].done=1; completed++;
-    }
+int main()
+{
+    int n, head;
+    printf("Enter number of requests: ");
+    scanf("%d", &n);
 
-    printTable(p,n);
+    int arr[n];
+    printf("Enter requests: ");
+    for (int i = 0; i < n; i++)
+        scanf("%d", &arr[i]);
+
+    printf("Enter the head position: ");
+    scanf("%d", &head);
+
+    char direction[10];
+    printf("Enter the direction (left/right): ");
+    scanf("%s", direction);
+
+    SCAN(arr, head, direction);
+
     return 0;
 }

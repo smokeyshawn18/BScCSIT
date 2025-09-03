@@ -1,43 +1,44 @@
+// C Program to simulate FCFS Disk Scheduling Algorithm
+
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct{
-    int id, at, bt, ct, tat, wt, rt;
-} Process;
+int calculate_seek_time(int requests[], int n, int start)
+{
+    int total_seek_time = 0;
+    int current_position = start;
 
-void printTable(Process p[], int n){
-    int totalTAT=0,totalWT=0;
-    printf("\n%-8s%-8s%-8s%-8s%-8s%-8s%-8s\n","Process","AT","BT","CT","TAT","WT","RT");
-    for(int i=0;i<n;i++){
-        totalTAT += p[i].tat;
-        totalWT += p[i].wt;
-        printf("P%-7d%-8d%-8d%-8d%-8d%-8d%-8d\n",
-               p[i].id,p[i].at,p[i].bt,p[i].ct,p[i].tat,p[i].wt,p[i].rt);
+    for (int i = 0; i < n; i++)
+    {
+        int seek_distance = abs(requests[i] - current_position);
+        total_seek_time += seek_distance;
+        current_position = requests[i];
     }
-    printf("\nAverage TAT = %.2f\n",(float)totalTAT/n);
-    printf("Average WT  = %.2f\n",(float)totalWT/n);
+    return total_seek_time;
 }
 
-int main(){
-    int n;
-    printf("Enter number of processes: "); scanf("%d",&n);
-    Process p[n];
-    for(int i=0;i<n;i++){
-        p[i].id=i+1;
-        printf("Enter AT and BT for P%d: ",i+1);
-        scanf("%d %d",&p[i].at,&p[i].bt);
+int main()
+{
+    // Example requests (track numbers)
+    // int requests[] = {98, 183, 41, 122, 14, 124, 65, 67};
+    // int n = sizeof(requests) / sizeof(requests[0]);
+    // int starting_position = 53;
+    int n, starting_position;
+    printf("Enter the number of requests: ");
+    scanf("%d", &n);
+
+    int requests[n];
+    printf("Enter the disk request queue: ");
+    for (int i = 0; i < n; i++)
+    {
+        scanf("%d", &requests[i]);
     }
 
-    int time=0;
-    for(int i=0;i<n;i++){
-        if(time < p[i].at) time=p[i].at;
-        p[i].ct = time + p[i].bt;
-        p[i].tat = p[i].ct - p[i].at;
-        p[i].wt = p[i].tat - p[i].bt;
-        p[i].rt = p[i].wt;
-        time = p[i].ct;
-    }
+    printf("Enter the starting position of the disk head: ");
+    scanf("%d", &starting_position);
 
-    printTable(p,n);
+    int seek_time = calculate_seek_time(requests, n, starting_position);
+    printf("Total Seek Time: %d\n", seek_time);
+
     return 0;
 }

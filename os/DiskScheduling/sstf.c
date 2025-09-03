@@ -1,50 +1,79 @@
 #include <stdio.h>
-#include <stdlib.h>
 
-typedef struct{
-    int id, at, bt, ct, tat, wt, rt, done;
-} Process;
+struct head
+{
+    int num;
+    int flag;
+};
 
-void printTable(Process p[], int n){
-    int totalTAT=0,totalWT=0;
-    printf("\n%-8s%-8s%-8s%-8s%-8s%-8s%-8s\n","Process","AT","BT","CT","TAT","WT","RT");
-    for(int i=0;i<n;i++){
-        totalTAT += p[i].tat;
-        totalWT += p[i].wt;
-        printf("P%-7d%-8d%-8d%-8d%-8d%-8d%-8d\n",
-               p[i].id,p[i].at,p[i].bt,p[i].ct,p[i].tat,p[i].wt,p[i].rt);
-    }
-    printf("\nAverage TAT = %.2f\n",(float)totalTAT/n);
-    printf("Average WT  = %.2f\n",(float)totalWT/n);
-}
+void main()
+{
+    struct head h[33];
+    int array_1[33], array_2[33];
+    int count = 0, j, x, limit, minimum, location, disk_head, sum = 0;
 
-int main(){
-    int n;
-    printf("Enter number of processes: "); scanf("%d",&n);
-    Process p[n];
-    for(int i=0;i<n;i++){
-        p[i].id=i+1; p[i].done=0;
-        printf("Enter AT and BT for P%d: ",i+1);
-        scanf("%d %d",&p[i].at,&p[i].bt);
+    printf("\nEnter total number of locations: ");
+    scanf("%d", &limit);
+
+    printf("\nEnter position of disk head: ");
+    scanf("%d", &disk_head);
+
+    printf("\nEnter elements of disk head queue: ");
+    while (count < limit)
+    {
+        scanf("%d", &h[count].num);
+        h[count].flag = 0;
+        count++;
     }
 
-    int completed=0, time=0;
-    while(completed < n){
-        int idx=-1, minBT=1e9;
-        for(int i=0;i<n;i++){
-            if(!p[i].done && p[i].at <= time && p[i].bt < minBT){
-                minBT=p[i].bt; idx=i;
+    for (count = 0; count < limit; count++)
+    {
+        x = 0;
+        minimum = 0;
+        location = 0;
+        for (j = 0; j < limit; j++)
+        {
+            if (h[j].flag == 0)
+            {
+                if (x == 0)
+                {
+                    array_1[j] = disk_head - h[j].num;
+                    if (array_1[j] < 0)
+                    {
+                        array_1[j] = h[j].num - disk_head;
+                    }
+                    minimum = array_1[j];
+                    location = j;
+                    x++;
+                }
+                else
+                {
+                    array_1[j] = disk_head - h[j].num;
+                    if (array_1[j] < 0)
+                    {
+                        array_1[j] = h[j].num - disk_head;
+                    }
+                }
+                if (minimum > array_1[j])
+                {
+                    minimum = array_1[j];
+                    location = j;
+                }
             }
         }
-        if(idx==-1){ time++; continue; }
-        p[idx].ct = time + p[idx].bt;
-        p[idx].tat = p[idx].ct - p[idx].at;
-        p[idx].wt = p[idx].tat - p[idx].bt;
-        p[idx].rt = p[idx].wt;
-        time = p[idx].ct;
-        p[idx].done=1; completed++;
+        h[location].flag = 1;
+        array_2[count] = h[location].num - disk_head;
+        if (array_2[count] < 0)
+        {
+            array_2[count] = disk_head - h[location].num;
+        }
+        disk_head = h[location].num;
     }
-
-    printTable(p,n);
-    return 0;
+    count = 0;
+    while (count < limit)
+    {
+        sum = sum + array_2[count];
+        count++;
+    }
+    printf("\nTotal seek time: %d\n", sum);
 }
