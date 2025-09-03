@@ -7,13 +7,15 @@ int calculate_seek_time(int requests[], int n, int start)
 {
     int total_seek_time = 0;
     int current_position = start;
-
+    printf("Head movement sequence: %d", current_position);
     for (int i = 0; i < n; i++)
     {
         int seek_distance = abs(requests[i] - current_position);
         total_seek_time += seek_distance;
         current_position = requests[i];
+            printf(" -> %d", current_position);
     }
+       printf("\n");
     return total_seek_time;
 }
 

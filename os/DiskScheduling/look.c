@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-const int size = 8;
+int seek_rate = 5; // assume 5 ms per cylinder movement
 
 // Compare function for qsort
 int compare(const void *a, const void *b)
@@ -10,15 +10,15 @@ int compare(const void *a, const void *b)
     return (*(int *)a - *(int *)b);
 }
 
-void LOOK(int arr[], int head, char *direction)
+void LOOK(int arr[], int n, int head, char *direction)
 {
     int seek_count = 0;
     int distance, cur_track;
-    int left[size], right[size];
+    int left[n], right[n];
     int left_size = 0, right_size = 0;
 
-    // Appending values which are currently at left and right direction from the head.
-    for (int i = 0; i < size; i++)
+    // Divide requests into left and right
+    for (int i = 0; i < n; i++)
     {
         if (arr[i] < head)
             left[left_size++] = arr[i];
@@ -26,11 +26,14 @@ void LOOK(int arr[], int head, char *direction)
             right[right_size++] = arr[i];
     }
 
-    // Sorting left and right arrays for servicing tracks in the correct sequence.
+    // Sort both sides
     qsort(left, left_size, sizeof(int), compare);
     qsort(right, right_size, sizeof(int), compare);
 
-    // Run the while loop two times, one by one scanning right and left side of the head.
+    int seek_sequence[n];
+    int seq_index = 0;
+
+    // Run two passes (one in given direction, then reverse)
     int run = 2;
     while (run--)
     {
@@ -39,20 +42,11 @@ void LOOK(int arr[], int head, char *direction)
             for (int i = left_size - 1; i >= 0; i--)
             {
                 cur_track = left[i];
-
-                // Appending current track to seek sequence
-                printf("%d ", cur_track);
-
-                // Calculate absolute distance
+                seek_sequence[seq_index++] = cur_track;
                 distance = abs(cur_track - head);
-
-                // Increase the total count
                 seek_count += distance;
-
-                // Accessed track is now the new head
                 head = cur_track;
             }
-            // Reversing the direction
             strcpy(direction, "right");
         }
         else if (strcmp(direction, "right") == 0)
@@ -60,36 +54,32 @@ void LOOK(int arr[], int head, char *direction)
             for (int i = 0; i < right_size; i++)
             {
                 cur_track = right[i];
-
-                // Appending current track to seek sequence
-                printf("%d ", cur_track);
-
-                // Calculate absolute distance
+                seek_sequence[seq_index++] = cur_track;
                 distance = abs(cur_track - head);
-
-                // Increase the total count
                 seek_count += distance;
-
-                // Accessed track is now the new head
                 head = cur_track;
             }
-            // Reversing the direction
             strcpy(direction, "left");
         }
     }
 
-    printf("\nTotal number of seek operations = %d\n", seek_count);
+    // Print sequence
+    printf("\nSeek Sequence: ");
+    for (int i = 0; i < seq_index; i++)
+        printf("%d ", seek_sequence[i]);
+
+    printf("\nTotal Head Movement (cylinders) = %d", seek_count);
+    printf("\nTotal Seek Time = %d ms\n", seek_count * seek_rate);
 }
 
-// Driver code
 int main()
 {
     int n, head;
-    printf("Enter the size of queue request: ");
+    printf("Enter number of requests: ");
     scanf("%d", &n);
 
     int arr[n];
-    printf("Enter the queue request: ");
+    printf("Enter the request queue: ");
     for (int i = 0; i < n; i++)
         scanf("%d", &arr[i]);
 
@@ -97,10 +87,10 @@ int main()
     scanf("%d", &head);
 
     char direction[10];
-    printf("Enter the direction of head movement (left/right): ");
+    printf("Enter the initial direction (left/right): ");
     scanf("%s", direction);
 
-    LOOK(arr, head, direction);
+    LOOK(arr, n, head, direction);
 
     return 0;
 }

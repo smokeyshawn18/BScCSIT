@@ -1,116 +1,126 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-int size = 8;
-int disk_size = 200;
+int seek_rate = 5; // assume 5 ms per cylinder
 
-// Function to perform C-LOOK on the request
-// array starting from the given head
-void CLOOK(int arr[], int head)
+// Compare function for qsort
+int compare(const void *a, const void *b)
+{
+    return (*(int *)a - *(int *)b);
+}
+
+void CLOOK(int arr[], int n, int head, char *direction)
 {
     int seek_count = 0;
     int distance, cur_track;
-    int left[size], right[size];
+    int left[n], right[n];
     int left_count = 0, right_count = 0;
 
-    // Tracks on the left of the
-    // head will be serviced when
-    // once the head comes back
-    // to the beginning (left end)
-    for (int i = 0; i < size; i++)
+    // Divide requests into left and right of head
+    for (int i = 0; i < n; i++)
     {
         if (arr[i] < head)
             left[left_count++] = arr[i];
-        if (arr[i] > head)
+        else if (arr[i] > head)
             right[right_count++] = arr[i];
     }
 
-    // Sorting left and right arrays
-    for (int i = 0; i < left_count - 1; i++)
+    // Sort both sides
+    qsort(left, left_count, sizeof(int), compare);
+    qsort(right, right_count, sizeof(int), compare);
+
+    int seek_sequence[n];
+    int seq_index = 0;
+
+    // If moving right
+    if (strcmp(direction, "right") == 0)
     {
-        for (int j = 0; j < left_count - i - 1; j++)
+        // Service the right side
+        for (int i = 0; i < right_count; i++)
         {
-            if (left[j] > left[j + 1])
+            cur_track = right[i];
+            seek_sequence[seq_index++] = cur_track;
+            distance = abs(cur_track - head);
+            seek_count += distance;
+            head = cur_track;
+        }
+
+        // Jump to the leftmost request
+        if (left_count > 0)
+        {
+            seek_count += abs(head - left[0]);
+            head = left[0];
+
+            // Service left side
+            for (int i = 0; i < left_count; i++)
             {
-                int temp = left[j];
-                left[j] = left[j + 1];
-                left[j + 1] = temp;
+                cur_track = left[i];
+                seek_sequence[seq_index++] = cur_track;
+                distance = abs(cur_track - head);
+                seek_count += distance;
+                head = cur_track;
             }
         }
     }
-    for (int i = 0; i < right_count - 1; i++)
+    else // Moving left
     {
-        for (int j = 0; j < right_count - i - 1; j++)
+        // Service left side
+        for (int i = left_count - 1; i >= 0; i--)
         {
-            if (right[j] > right[j + 1])
+            cur_track = left[i];
+            seek_sequence[seq_index++] = cur_track;
+            distance = abs(cur_track - head);
+            seek_count += distance;
+            head = cur_track;
+        }
+
+        // Jump to the rightmost request
+        if (right_count > 0)
+        {
+            seek_count += abs(head - right[0]);
+            head = right[0];
+
+            // Service right side
+            for (int i = 0; i < right_count; i++)
             {
-                int temp = right[j];
-                right[j] = right[j + 1];
-                right[j + 1] = temp;
+                cur_track = right[i];
+                seek_sequence[seq_index++] = cur_track;
+                distance = abs(cur_track - head);
+                seek_count += distance;
+                head = cur_track;
             }
         }
     }
 
-    // First service the requests
-    // on the right side of the
-    // head
-    for (int i = 0; i < right_count; i++)
-    {
-        cur_track = right[i];
+    // Print sequence
+    printf("\nSeek Sequence: ");
+    for (int i = 0; i < seq_index; i++)
+        printf("%d ", seek_sequence[i]);
 
-        // Calculate absolute distance
-        distance = abs(cur_track - head);
-
-        // Increase the total count
-        seek_count += distance;
-
-        // Accessed track is now new head
-        head = cur_track;
-    }
-
-    // Once reached the right end
-    // jump to the last track that
-    // is needed to be serviced in
-    // left direction
-    seek_count += abs(head - left[0]);
-    head = left[0];
-
-    // Now service the requests again
-    // which are left
-    for (int i = 0; i < left_count; i++)
-    {
-        cur_track = left[i];
-
-        // Calculate absolute distance
-        distance = abs(cur_track - head);
-
-        // Increase the total count
-        seek_count += distance;
-
-        // Accessed track is now the new head
-        head = cur_track;
-    }
-
-    printf("Total number of seek operations = %d\n", seek_count);
+    printf("\nTotal Head Movement (cylinders) = %d", seek_count);
+    printf("\nTotal Seek Time = %d ms\n", seek_count * seek_rate);
 }
 
 int main()
 {
     int n, head;
-    printf("Enter the size of queue request: ");
+    printf("Enter number of requests: ");
     scanf("%d", &n);
 
     int arr[n];
-    printf("Enter the queue request: ");
+    printf("Enter the request queue: ");
     for (int i = 0; i < n; i++)
         scanf("%d", &arr[i]);
+
     printf("Enter the initial head position: ");
     scanf("%d", &head);
 
     char direction[10];
     printf("Enter the direction of head movement (left/right): ");
     scanf("%s", direction);
-    CLOOK(arr, head);
+
+    CLOOK(arr, n, head, direction);
 
     return 0;
 }
