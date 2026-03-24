@@ -75,11 +75,24 @@ int binary_search_recursive(int arr[], int low, int high, int target) {
 }
 
 int main() {
-    int arr[] = {2, 5, 8, 12, 16, 23, 38, 56, 72, 91};
-    int n      = sizeof(arr) / sizeof(arr[0]);
-    int target = 23;
+    int arr[100];
+    int n, target;
 
     printf("=== BINARY SEARCH ===\n");
+
+    /* Take size input */
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    /* Take sorted array input */
+    printf("Enter %d elements (sorted): ", n);
+    for (int i = 0; i < n; i++)
+        scanf("%d", &arr[i]);
+
+    /* Take target input */
+    printf("Enter element to search: ");
+    scanf("%d", &target);
+
     printf("Sorted Array: ");
     for (int i = 0; i < n; i++) printf("%d ", arr[i]);
     printf("\nTarget: %d\n\n", target);
@@ -97,12 +110,6 @@ int main() {
         printf("[Recursive] Found %d at index %d\n", target, idx);
     else
         printf("[Recursive] %d not found\n", target);
-
-    /* Test: element not in array */
-    target = 99;
-    idx = binary_search_iterative(arr, n, target);
-    printf("\nSearching for %d: %s\n", target,
-           idx != -1 ? "Found" : "Not found");
 
     return 0;
 }
