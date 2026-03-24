@@ -107,7 +107,9 @@ void print_fib_series(int n) {
 }
 
 int main() {
-    int n = 10;   /* Find first n Fibonacci numbers */
+    int n;   /* Find first n Fibonacci numbers */
+    printf("Enter the value of n: ");
+    scanf("%d", &n);
 
     printf("=== FIBONACCI SEQUENCE (n = %d) ===\n\n", n);
 
