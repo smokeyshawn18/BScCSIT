@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Form Validation</title>
+    <style>
+      .error {
+        color: red;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>User Registration Form</h2>
+    <form id="userForm" onsubmit="return validateForm(event);">
+      Username: <input type="text" id="username" /><br /><br />
+      Password: <input type="password" id="password" /><br /><br />
+      Education: <input type="checkbox" id="education" /> Required<br /><br />
+      <input type="submit" value="Submit" /><br /><br />
+
+      <div id="usernameError" class="error"></div>
+      <div id="passwordError" class="error"></div>
+      <div id="educationError" class="error"></div>
+    </form>
+
+    <script>
+      function validateForm(event) {
+        event.preventDefault();
+        clearErrors();
+
+        let isValid = true;
+
+        // Username validation
+        const username = document.getElementById("username").value.trim();
+        if (!username) {
+          showError("usernameError", "Username required");
+          isValid = false;
+        } else if (username.length < 4) {
+          showError("usernameError", "Min 4 characters");
+          isValid = false;
+        }
+
+        // Password validation
+        const password = document.getElementById("password").value;
+        if (!password) {
+          showError("passwordError", "Password required");
+          isValid = false;
+        } else if (!/^\d.*#$/.test(password)) {
+          showError(
+            "passwordError",
+            "Password must Start with digit, end with #",
+          );
+          isValid = false;
+        }
+
+        // Education checkbox
+        if (!document.getElementById("education").checked) {
+          showError("educationError", "Education required");
+          isValid = false;
+        }
+
+        if (isValid) alert("Success!");
+        return false;
+      }
+
+      function showError(id, msg) {
+        document.getElementById(id).innerHTML = msg;
+        document.getElementById(id).style.display = "block";
+      }
+
+      function clearErrors() {
+        document
+          .querySelectorAll(".error")
+          .forEach((e) => (e.style.display = "none"));
+      }
+    </script>
+  </body>
+</html>

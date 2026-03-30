@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+  <head>
+    <title>BookStore - Login</title>
+    <style>
+      body {
+        font-family: Arial;
+        margin: 50px;
+        background: #f4f4f4;
+      }
+      .form-container {
+        max-width: 400px;
+        margin: auto;
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+      input[type="submit"] {
+        background: #007bff;
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 5px;
+        width: 100%;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      input[type="submit"]:hover {
+        background: #0056b3;
+      }
+      a {
+        color: #007bff;
+      }
+      .nav {
+        text-align: center;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <h2>🔐 Login</h2>
+      <form>
+        <input type="text" placeholder="Username" name="username" />
+        <input type="password" placeholder="Password" name="password" />
+        <input type="submit" value="Login" />
+      </form>
+      <p style="text-align: center">
+        <a href="register.html">New User? Register Here</a>
+      </p>
+      <div class="nav"><a href="home.html">← Home</a></div>
+    </div>
+  </body>
+</html>

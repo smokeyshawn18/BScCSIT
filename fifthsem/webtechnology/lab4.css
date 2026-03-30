@@ -1,0 +1,17 @@
+body {
+  background: #f0f0f0;
+  font-family: Arial;
+}
+.box {
+  padding: 15px;
+  margin: 10px;
+  border-radius: 5px;
+}
+.ext {
+  background: #bee3f8;
+  border: 2px solid blue;
+}
+.int {
+  background: #c6f6d5;
+  border: 2px solid green;
+}

@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+  <head>
+    <title>CSS Demo</title>
+
+    <!-- INTERNAL CSS -->
+    <style>
+      h1 {
+        color: #333;
+        text-align: center;
+      }
+      .int h3 {
+        color: green;
+      }
+    </style>
+
+    <!-- EXTERNAL CSS -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- INLINE CSS -->
+    <h1 style="color: red">Inline | Internal | External CSS Demo</h1>
+
+    <div class="box ext">
+      <h3>EXTERNAL CSS</h3>
+      <p>From styles.css file</p>
+    </div>
+
+    <div class="box int">
+      <h3>INTERNAL CSS</h3>
+      <p>From &lt;style&gt; tag</p>
+    </div>
+
+    <div class="box" style="background: #fed7d7; border: 2px solid red">
+      <h3 style="color: darkred">INLINE CSS</h3>
+      <p>style="" attribute</p>
+    </div>
+  </body>
+</html>

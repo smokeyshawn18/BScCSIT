@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Country Capital</title>
+
+    <style>
+      #capital {
+        color: red;
+        font-weight: bold;
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Select Country:</h2>
+    <select id="country" onchange="showCapital()">
+      <option value="">--Select--</option>
+      <option value="Washington D.C.">USA</option>
+      <option value="London">UK</option>
+      <option value="Tokyo">Japan</option>
+      <option value="Paris">France</option>
+      <option value="Kathmandu">Nepal</option>
+    </select>
+    <br /><br />
+    <div id="capital"></div>
+
+    <script>
+      function showCapital() {
+        const country = document.getElementById("country");
+        const capitalDiv = document.getElementById("capital");
+
+        if (country.value) {
+          capitalDiv.innerHTML = country.value;
+        } else {
+          capitalDiv.innerHTML = "";
+        }
+      }
+    </script>
+  </body>
+</html>
