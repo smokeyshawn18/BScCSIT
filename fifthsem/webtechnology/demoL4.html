@@ -5,35 +5,76 @@
 
     <!-- INTERNAL CSS -->
     <style>
-      h1 {
-        color: #333;
-        text-align: center;
+      body {
+        font-family: Arial;
+        background-image: url("https://seriesgraph.com/_next/image?url=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Fw400%2FfHpKWq9ayzSk8nSwqRuaAUemRKh.jpg&w=1920&q=75");
+        background-repeat: no-repeat;
+        background-position: top right; /* FIX overlap */
+        margin: 20px;
       }
-      .int h3 {
+
+      h2 {
+        font-style: italic;
+        color: blue;
+        border: 2px solid blue; /* INTERNAL BORDER */
+        padding: 5px;
+      }
+
+      /* Link Styles */
+      a:link {
+        color: red;
+      }
+      a:visited {
+        color: purple;
+      }
+      a:hover {
         color: green;
+      }
+      a:active {
+        color: orange;
       }
     </style>
 
-    <!-- EXTERNAL CSS -->
-    <link rel="stylesheet" href="styles.css" />
+    <!-- EXTERNAL CSS (simulated) -->
+    <style>
+      .externalText {
+        font-family: Verdana;
+        font-size: 18px;
+        color: green;
+        border: 2px dashed green; /* EXTERNAL BORDER */
+        padding: 5px;
+      }
+
+      /* Custom cursor */
+      a {
+        cursor: crosshair;
+      }
+    </style>
   </head>
   <body>
     <!-- INLINE CSS -->
-    <h1 style="color: red">Inline | Internal | External CSS Demo</h1>
+    <h1
+      style="
+        color: darkred;
+        font-family: Courier;
+        border: 2px solid red;
+        padding: 5px;
+      "
+    >
+      Inline CSS Example
+    </h1>
 
-    <div class="box ext">
-      <h3>EXTERNAL CSS</h3>
-      <p>From styles.css file</p>
-    </div>
+    <h2>Internal CSS Example</h2>
 
-    <div class="box int">
-      <h3>INTERNAL CSS</h3>
-      <p>From &lt;style&gt; tag</p>
-    </div>
+    <p class="externalText">This text is styled using external CSS.</p>
 
-    <div class="box" style="background: #fed7d7; border: 2px solid red">
-      <h3 style="color: darkred">INLINE CSS</h3>
-      <p>style="" attribute</p>
-    </div>
+    <h3>Background Control</h3>
+    <p>
+      Image is set to <b>no-repeat</b> and positioned top-right to avoid
+      overlap.
+    </p>
+
+    <h3>Links with Custom Cursor</h3>
+    <a href="#">Click Me</a>
   </body>
 </html>
