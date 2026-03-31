@@ -1,16 +1,53 @@
 <!doctype html>
 <html>
+  <head>
+    <title>Registration Form</title>
+    <style>
+      .error {
+        color: red;
+        font-size: 12px;
+        display: none;
+      }
+    </style>
+  </head>
   <body>
-    <h2>Registration Page</h2>
+    <h2>Registration Form</h2>
 
-    <form>
-      First Name: <input type="text" /><br /><br />
-      Last Name: <input type="text" /><br /><br />
-      Email: <input type="email" /><br /><br />
-      Address: <input type="text" /><br /><br />
-      Password: <input type="password" /><br /><br />
-      Phone: <input type="text" /><br /><br />
+    <form id="registerForm" onsubmit="return validateForm(event);">
+      <!-- First Name -->
+      <label>First Name:</label><br />
+      <input type="text" id="firstName" /><br />
+      <span id="firstNameError" class="error"></span><br />
+
+      <!-- Last Name -->
+      <label>Last Name:</label><br />
+      <input type="text" id="lastName" /><br />
+      <span id="lastNameError" class="error"></span><br />
+
+      <!-- Email -->
+      <label>Email:</label><br />
+      <input type="text" id="email" /><br />
+      <span id="emailError" class="error"></span><br />
+
+      <!-- Mobile -->
+      <label>Mobile:</label><br />
+      <input type="text" id="mobile" /><br />
+      <span id="mobileError" class="error"></span><br />
+
+      <!-- Password -->
+      <label>Password:</label><br />
+      <input type="password" id="password" /><br />
+      <span id="passwordError" class="error"></span><br />
+
+      <!-- Address -->
+      <label>Address:</label><br />
+      <textarea id="address"></textarea><br />
+      <span id="addressError" class="error"></span><br />
+
       <input type="submit" value="Register" />
     </form>
+
+    <!-- Paste your JS here -->
+    <script src="validateRegForm.js" />
   </body>
 </html>
