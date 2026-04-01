@@ -37,7 +37,7 @@ def run_length_decode(encoded):
 
 
 # --- Test ---
-text = "AAABBBCCDDDDEE"
+text = input("Enter text to encode: ")
 encoded = run_length_encode(text)
 decoded = run_length_decode(encoded)
 
@@ -45,5 +45,5 @@ print(f"Original : {text}")
 print(f"Encoded  : {encoded}")
 print(f"Decoded  : {decoded}")
 print(f"Match    : {text == decoded}")
-```
+
 
