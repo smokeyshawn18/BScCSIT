@@ -15,7 +15,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>🔥 PHP Programming Lab Demo</h1>
+
         
         <!-- 1. Sum of Digits -->
         <div class="program">
