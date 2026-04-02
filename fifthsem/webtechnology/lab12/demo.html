@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+  <head>
+    <title>AJAX Data Fetch</title>
+    <style>
+      body {
+        font-family: Arial;
+        margin: 30px;
+      }
+      button {
+        padding: 8px 15px;
+        cursor: pointer;
+      }
+      table {
+        margin-top: 20px;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+      th,
+      td {
+        padding: 8px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Retrieve Data using AJAX</h2>
+
+    <button onclick="loadData()">Show Data</button>
+
+    <table id="dataTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Text Input</th>
+          <th>Select Choice</th>
+          <th>Radio Choice</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Data will come here -->
+      </tbody>
+    </table>
+
+    <script>
+      function loadData() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "getData.php", true);
+
+        xhr.onload = function () {
+          if (this.status === 200) {
+            var data = JSON.parse(this.responseText);
+
+            var tableBody = document.querySelector("#dataTable tbody");
+            tableBody.innerHTML = "";
+
+            data.forEach(function (row) {
+              var tr = document.createElement("tr");
+
+              tr.innerHTML = `
+                    <td>${row.id}</td>
+                    <td>${row.text_input}</td>
+                    <td>${row.select_choice}</td>
+                    <td>${row.radio_choice}</td>
+                `;
+
+              tableBody.appendChild(tr);
+            });
+          } else {
+            alert("Error fetching data");
+          }
+        };
+
+        xhr.send();
+      }
+    </script>
+  </body>
+</html>
