@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Number to Words</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 30px;
+      }
+      input {
+        padding: 6px;
+        margin-right: 10px;
+      }
+      #result {
+        margin-top: 10px;
+        font-weight: bold;
+      }
+      .error {
+        color: red;
+        font-size: 0.9em;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Convert Number (0–999) to Words</h3>
+    <input type="text" id="num" placeholder="0–999" />
+    <button onclick="convert()">Convert</button>
+    <div id="error" class="error"></div>
+    <div id="result"></div>
+
+    <script>
+      const ones = [
+        "Zero",
+        "One",
+        "Two",
+        "Three",
+        "Four",
+        "Five",
+        "Six",
+        "Seven",
+        "Eight",
+        "Nine",
+        "Ten",
+        "Eleven",
+        "Twelve",
+        "Thirteen",
+        "Fourteen",
+        "Fifteen",
+        "Sixteen",
+        "Seventeen",
+        "Eighteen",
+        "Nineteen",
+      ];
+      const tens = [
+        "",
+        "",
+        "Twenty",
+        "Thirty",
+        "Forty",
+        "Fifty",
+        "Sixty",
+        "Seventy",
+        "Eighty",
+        "Ninety",
+      ];
+
+      function numToWords(n) {
+        if (n === 0) return ones[0];
+        let w = "";
+        if (n >= 100) {
+          w += ones[Math.floor(n / 100)] + " Hundred ";
+          n %= 100;
+        }
+        if (n > 0) {
+          w +=
+            n < 20
+              ? ones[n]
+              : tens[Math.floor(n / 10)] + (n % 10 ? " " + ones[n % 10] : "");
+        }
+        return w.trim();
+      }
+
+      function convert() {
+        const e = document.getElementById("num");
+        const eError = document.getElementById("error");
+        const eResult = document.getElementById("result");
+        const v = e.value.trim();
+        eError.textContent = "";
+        eResult.textContent = "";
+
+        if (!v) {
+          eError.textContent = "Enter a number.";
+          return;
+        }
+        if (!/^\d+$/.test(v) || v.length > 3 || v < 0 || v > 999) {
+          eError.textContent = "Invalid: only digits 0–999 allowed.";
+          return;
+        }
+        eResult.textContent = numToWords(parseInt(v, 10));
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>jQuery hide() and show()</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+      }
+      #box {
+        width: 200px;
+        height: 100px;
+        background: #0af;
+        color: white;
+        margin: 10px 0;
+        padding: 10px;
+      }
+      button {
+        margin: 0 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>jQuery hide() and show() Example</h3>
+
+    <!--
+    Lab report description (short):
+    This program demonstrates how to hide and show HTML elements using jQuery's
+    .hide() and .show() methods. Initially, the blue box is visible. When "Hide"
+    is clicked, the box is hidden from the page layout. When "Show" is clicked,
+    the box becomes visible again as the browser restores its original display
+    property. The example uses simple click handlers on two buttons to toggle
+    the visibility of an HTML div element.
+  -->
+
+    <div id="box">This box can be hidden and shown.</div>
+
+    <button id="btnHide">Hide</button>
+    <button id="btnShow">Show</button>
+
+    <script>
+      // When the DOM is ready
+      $(document).ready(function () {
+        // Hide the element when "Hide" button is clicked
+        $("#btnHide").click(function () {
+          $("#box").hide(); // hides the div (sets display: none)
+        });
+
+        // Show the element when "Show" button is clicked
+        $("#btnShow").click(function () {
+          $("#box").show(); // restores the div's original display
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Lab report description (short):
+  This XML document defines a simple note structure where 'note' is the root element
+  and 'to', 'from', 'heading', and 'body' are required child elements. An external XML
+  Schema (note.xsd) is referenced to validate the document. The schema enforces that
+  each child element contains only string content and must appear exactly once within
+  the note element. This ensures that the XML document follows a well‑defined structure.
+-->
+<note xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="note.xsd">
+  <to>Shudarsan</to>
+  <from>Teacher</from>
+  <heading>Lab Assignment</heading>
+  <body>This is an example note created for XML and XSD practice.</body>
+</note>

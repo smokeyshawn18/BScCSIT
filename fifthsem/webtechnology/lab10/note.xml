@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE note SYSTEM "note.dtd">
+
+<!-- <p>
+This program defines an XML document 
+with note as the root element and to, 
+from, heading, and body as required child elements. 
+An external DTD (note.dtd) is used to declare the structure so that every note must contain exactly one to, 
+one from, one heading, and one body element, each containing only parsed character data (text). 
+This ensures that the XML document follows a strict, predefined format.
+</p> -->
+
+<note>
+  <to>Shudarsan</to>
+  <from>Teacher</from>
+  <heading>Lab Assignment</heading>
+  <body>This is an example note created for XML and DTD practice.</body>
+</note>
