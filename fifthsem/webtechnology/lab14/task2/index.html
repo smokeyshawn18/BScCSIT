@@ -1,0 +1,112 @@
+<!doctype html>
+<!-- index.html — App 2: Age Verification -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Age Verification</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap");
+
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "DM Sans", sans-serif;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 16px;
+        position: relative;
+      }
+
+      h1 {
+        font-family: "Syne", sans-serif;
+        font-size: 38px;
+        font-weight: 800;
+        line-height: 1;
+        color: var(--ink);
+        margin-bottom: 8px;
+      }
+
+      input {
+        width: 100%;
+        background: var(--bg);
+        border: 1.5px solid var(--border);
+        border-radius: 4px;
+        color: var(--ink);
+        font-family: "DM Sans", sans-serif;
+        font-size: 15px;
+        padding: 13px 16px;
+      }
+
+      input::placeholder {
+        color: #c0bab0;
+      }
+
+      button {
+        width: 100%;
+
+        border-radius: 4px;
+        color: #ffffff;
+        background-color: blue;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 16px;
+        cursor: pointer;
+        margin-top: 8px;
+      }
+
+      button:hover {
+        opacity: 0.88;
+      }
+      button:active {
+        transform: scale(0.99);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="badge">Age Verification</div>
+      <h1>Verify Your<br />Access</h1>
+      <p class="subtitle">
+        Please enter your name and age to confirm eligibility before entering
+        the site.
+      </p>
+
+      <form method="POST" action="check.php">
+        <div class="field">
+          <label for="name">Full Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="e.g. Sita Sharma"
+            required
+            autocomplete="off"
+          />
+        </div>
+        <div class="field">
+          <label for="age">Age</label>
+          <input
+            type="number"
+            id="age"
+            name="age"
+            placeholder="Your age in years"
+            min="1"
+            max="120"
+            required
+          />
+        </div>
+        <button type="submit">Check Eligibility &rarr;</button>
+      </form>
+
+      <p class="footer-note">
+        You must be 18 or older to access this site.<br />Your information is
+        not stored.
+      </p>
+    </div>
+  </body>
+</html>
