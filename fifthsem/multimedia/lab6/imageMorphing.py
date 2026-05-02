@@ -2,8 +2,8 @@ import cv2
 import os
 
 # File paths - adjust as needed
-src_path = "images/source.jpg"
-dst_path = "images/target.jpg"
+src_path = "images/source.png"
+dst_path = "images/target.png"
 
 # Load images with checks
 src_img = cv2.imread(src_path)
