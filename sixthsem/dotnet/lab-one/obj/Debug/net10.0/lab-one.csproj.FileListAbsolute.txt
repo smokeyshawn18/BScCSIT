@@ -1,0 +1,5 @@
+/home/shawn/Desktop/CSIT/sixthsem/dotnet/lab-one/obj/Debug/net10.0/lab-one.GeneratedMSBuildEditorConfig.editorconfig
+/home/shawn/Desktop/CSIT/sixthsem/dotnet/lab-one/obj/Debug/net10.0/lab-one.AssemblyInfoInputs.cache
+/home/shawn/Desktop/CSIT/sixthsem/dotnet/lab-one/obj/Debug/net10.0/lab-one.AssemblyInfo.cs
+/home/shawn/Desktop/CSIT/sixthsem/dotnet/lab-one/obj/Debug/net10.0/lab-one.csproj.CoreCompileInputs.cache
+/home/shawn/Desktop/CSIT/sixthsem/dotnet/lab-one/obj/Debug/net10.0/lab-one.sourcelink.json
